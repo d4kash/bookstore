@@ -1,8 +1,12 @@
 import 'package:bookstore/GlobalVariables/constant_page.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class BookCard extends StatelessWidget {
-  const BookCard({super.key});
+  final String image;
+  final String bookName;
+  final String price;
+  const BookCard({super.key, required this.image, required this.bookName, required this.price});
 
   @override
   Widget build(BuildContext context) {
@@ -14,14 +18,24 @@ class BookCard extends StatelessWidget {
           children: [
             Expanded(
               child: SizedBox(
-                height: Constant.height / 2,
+                height: Constant.height / 2.5,
                 child: Image.network(
-                  'https://images-na.ssl-images-amazon.com/images/I/41k1JwQ6zVL._SY291_BO1,204,203,200_QL40_FMwebp_.jpg',
+                  image,fit: BoxFit.contain,
                 ),
               ),
             ),
-            Text("Book name"),
-            Text('author name')
+               Padding(
+                 padding: const EdgeInsets.all(8.0),
+                 child: Column(
+                   children: [
+                    //  SizedBox(height: Constant.height/40,),
+                           Text(bookName,style:GoogleFonts.roboto(fontSize: 16,fontWeight: FontWeight.bold),overflow: TextOverflow.ellipsis,),
+                           SizedBox(height: Constant.height/50,),
+                           Text('\$ $price',style:GoogleFonts.roboto(fontSize: 16,fontWeight: FontWeight.bold)),
+                          //  SizedBox(height: Constant.height/40,),
+                   ],
+                 ),
+               ),
           ],
         ),
       ),

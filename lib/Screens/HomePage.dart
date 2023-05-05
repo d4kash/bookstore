@@ -3,10 +3,12 @@ import 'dart:convert';
 import 'package:bookstore/Components/book_card.dart';
 import 'package:bookstore/Components/scaffold_page.dart';
 import 'package:bookstore/GlobalVariables/constant_page.dart';
-import 'package:bookstore/models/BookListModel.dart';
+import 'package:bookstore/Screens/BookDetails.dart';
+
 import 'package:bookstore/models/book_model.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter/services.dart' as rootBundle;
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
@@ -19,8 +21,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+ 
+
   @override
   Widget build(BuildContext context) {
+  
     return CustomPageScaffold(
       heading: Padding(
         padding: const EdgeInsets.all(6.0),
@@ -55,7 +60,8 @@ class _HomePageState extends State<HomePage> {
       ),
       body: Expanded(
         child: FutureBuilder(
-          future: DefaultAssetBundle.of(context).loadString(Constant.jsonUrl),
+          future: DefaultAssetBundle.of(context)
+              .loadString(kIsWeb ? Constant.webJsonUrl : Constant.jsonUrl),
           builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
@@ -63,20 +69,14 @@ class _HomePageState extends State<HomePage> {
               if (snapshot.hasError) {
                 return const Text('Error');
               } else if (snapshot.hasData) {
-                var data = json.decode(snapshot.data);
-
-                // var mapData =
-                //     data.map((job) => new BookModal.fromJson(job)).toList();
-                // print(mapData);
-                // List<BookModal> products = [];
-                // s.forEach((element) {
-                //   Map<String, dynamic> ma = jsonDecode(element);
-                //   products.add(BookModal.fromJson(ma));
+                var responseList = jsonDecode(snapshot.data.toString());
+                // responseList.forEach((e) {
+                //   var obj = BookModal.fromJson(e);
+                //   print(obj);
                 // });
-                // 'cover_image_url': coverImage,
-                //'price_in_dollar': priceInDollar,
-
-                // print(listData);
+                // var dataList =
+                //     responseList.map((e) => BookModal.fromJson(e)).toList();
+                // print(dataList.runtimeType);
                 return SingleChildScrollView(
                   physics: const ClampingScrollPhysics(
                       parent: AlwaysScrollableScrollPhysics()),
@@ -84,12 +84,18 @@ class _HomePageState extends State<HomePage> {
                     height: Constant.height,
                     child: GridView.builder(
                       shrinkWrap: true,
-                      itemCount: data.length,
+                      itemCount: responseList.length,
                       itemBuilder: (BuildContext context, int index) {
-                        // var modalData = BookModal.fromMap(data);
-                        BookList bookList = BookList.fromJson(data);
-                        print(bookList);
-                        return const BookCard();
+                     
+                        return InkWell(
+                          onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>BookDetails(bookDetails: responseList[index],))),
+                          child: BookCard(
+                            image: responseList[index]['cover_image_url'],
+                            bookName: responseList[index]['title'],
+                            price:
+                                responseList[index]['price_in_dollar'].toString(),
+                          ),
+                        );
                       },
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(

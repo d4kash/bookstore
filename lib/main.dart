@@ -4,6 +4,7 @@ import 'package:bookstore/routes/AppRoute.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
       title: 'BookStore',
       theme: ThemeData(
         primarySwatch: Colors.deepOrange,
+        textTheme: GoogleFonts.robotoTextTheme()
       ),
       home: const HomePage(),
     );
