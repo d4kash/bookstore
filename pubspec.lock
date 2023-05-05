@@ -104,6 +104,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  font_awesome_flutter:
+    dependency: "direct main"
+    description:
+      name: font_awesome_flutter
+      sha256: "959ef4add147753f990b4a7c6cccb746d5792dbdc81b1cde99e62e7edb31b206"
+      url: "https://pub.dev"
+    source: hosted
+    version: "10.4.0"
   get:
     dependency: "direct main"
     description:
@@ -216,6 +224,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.2.4"
+  searchfield:
+    dependency: "direct main"
+    description:
+      name: searchfield
+      sha256: "62b6653d7194de5a7ea724124846b996d0d211cd3eeeec2e5ca84423650f66f8"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.7.8"
   shared_preferences:
     dependency: "direct main"
     description:

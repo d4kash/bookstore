@@ -33,7 +33,7 @@ class _CustomPageScaffoldState extends State<CustomPageScaffold> {
                 begin: const Alignment(0, 0.1),
                 end: const Alignment(0, 0.9),
                 colors: [
-                  const Color.fromARGB(255, 52, 143, 135),
+                  const Color(0xFFFFFF),
                   const Color.fromARGB(255, 86, 108, 31).withOpacity(0.5),
                 ],
               )),
