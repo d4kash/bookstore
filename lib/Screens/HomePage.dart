@@ -4,8 +4,8 @@ import 'package:bookstore/Components/book_card.dart';
 import 'package:bookstore/Components/scaffold_page.dart';
 import 'package:bookstore/GlobalVariables/constant_page.dart';
 import 'package:bookstore/Screens/BookDetails.dart';
+import 'package:bookstore/models/bookModel.dart';
 
-import 'package:bookstore/models/book_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' as rootBundle;
@@ -21,11 +21,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
- 
-
   @override
   Widget build(BuildContext context) {
-  
     return CustomPageScaffold(
       heading: Padding(
         padding: const EdgeInsets.all(6.0),
@@ -69,14 +66,14 @@ class _HomePageState extends State<HomePage> {
               if (snapshot.hasError) {
                 return const Text('Error');
               } else if (snapshot.hasData) {
+                // print(snapshot.data.runtimeType);
                 var responseList = jsonDecode(snapshot.data.toString());
-                // responseList.forEach((e) {
-                //   var obj = BookModal.fromJson(e);
-                //   print(obj);
-                // });
-                // var dataList =
-                //     responseList.map((e) => BookModal.fromJson(e)).toList();
-                // print(dataList.runtimeType);
+
+                final bookModelNew = bookModelNewFromJson(snapshot.data);
+
+                // print(bookModelNew);
+
+                // print(bookModelNew[0].title);
                 return SingleChildScrollView(
                   physics: const ClampingScrollPhysics(
                       parent: AlwaysScrollableScrollPhysics()),
@@ -86,14 +83,17 @@ class _HomePageState extends State<HomePage> {
                       shrinkWrap: true,
                       itemCount: responseList.length,
                       itemBuilder: (BuildContext context, int index) {
-                     
                         return InkWell(
-                          onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>BookDetails(bookDetails: responseList[index],))),
+                          onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => BookDetails(
+                                        bookDetails: bookModelNew[index],
+                                      ))),
                           child: BookCard(
-                            image: responseList[index]['cover_image_url'],
-                            bookName: responseList[index]['title'],
-                            price:
-                                responseList[index]['price_in_dollar'].toString(),
+                            image: bookModelNew[index].coverImageUrl,
+                            bookName: bookModelNew[index].title,
+                            price: bookModelNew[index].priceInDollar,
                           ),
                         );
                       },
