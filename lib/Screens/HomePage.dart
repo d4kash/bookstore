@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:bookstore/Components/book_card.dart';
 import 'package:bookstore/Components/scaffold_page.dart';
+import 'package:bookstore/Controller/product_controller.dart';
 import 'package:bookstore/GlobalVariables/constant_page.dart';
 import 'package:bookstore/Screens/BookDetails.dart';
+import 'package:bookstore/Widgets/Custom_widget.dart';
 import 'package:bookstore/models/bookModel.dart';
 
 import 'package:flutter/foundation.dart';
@@ -21,6 +23,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final ProductController productController = Get.find<ProductController>();
   @override
   Widget build(BuildContext context) {
     return CustomPageScaffold(
@@ -43,15 +46,16 @@ class _HomePageState extends State<HomePage> {
                     ),
                   )),
             ),
-            IconButton(
-                icon: const Icon(
-                  Icons.shopping_bag_outlined,
-                  size: 50,
-                  color: Colors.orange,
-                ),
-                onPressed: () {
-                  debugPrint("Pressed");
-                })
+            cartIcon(productController),
+            // IconButton(
+            //     icon:  Icon(
+            //       Icons.shopping_bag_outlined,
+            //       size: 50,
+            //       color: Colors.red[600],
+            //     ),
+            //     onPressed: () {
+            //       debugPrint("Pressed");
+            //     })
           ],
         ),
       ),

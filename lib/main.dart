@@ -1,10 +1,14 @@
+import 'package:bookstore/Controller/controller_binding.dart';
 import 'package:bookstore/Screens/HomePage.dart';
+import 'package:bookstore/models/bookModel.dart';
 import 'package:bookstore/routes/AppPage.dart';
 import 'package:bookstore/routes/AppRoute.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import 'Screens/BookDetails.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,15 +26,47 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    MaterialColor mycolor = MaterialColor(Colors.red.value, <int, Color>{
+      50: Colors.red.withOpacity(0.1),
+      100: Colors.red.withOpacity(0.2),
+      200: Colors.red.withOpacity(0.3),
+      300: Colors.red.withOpacity(0.4),
+      400: Colors.red.withOpacity(0.5), 
+      500: Colors.red.withOpacity(0.6),
+      600: Colors.red.withOpacity(0.7),
+      700: Colors.red.withOpacity(0.8),
+      800: Colors.red.withOpacity(0.9),
+      900: Colors.red.withOpacity(1),
+    },
+  ); 
+  final bookModelNew = BookModelNew(
+        title: "Wuthering Heights (Collins Classics)",
+        coverImageUrl: "https://images-na.ssl-images-amazon.com/images/I/41k1JwQ6zVL._SY291_BO1,204,203,200_QL40_FMwebp_.jpg",
+        priceInDollar: 3.99.toString(),
+        categories: [
+            "Books",
+            "Literature & Fiction",
+            "Genre Fiction"
+        ],
+        availableFormat: [
+            "Kindle",
+            "Audiobook",
+            "Hardcover",
+            "Mass Market Paperback",
+            "MP3 CD",
+            "Flexibound"
+        ]);
     return GetMaterialApp(
+      initialBinding: ControllerBinding(),
       debugShowCheckedModeBanner: false,
       routes: AppPages.routes,
       title: 'BookStore',
       theme: ThemeData(
-        primarySwatch: Colors.deepOrange,
+        primarySwatch: mycolor,
         textTheme: GoogleFonts.robotoTextTheme()
       ),
       home: const HomePage(),
+      // home:  BookDetails(bookDetails: bookModelNew,),
     );
   }
 }
