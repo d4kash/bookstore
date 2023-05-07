@@ -23,15 +23,20 @@ class _CartPageState extends State<CartPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    getCartData();
+    // getCartData();
+    
     // productController.cartSubTotal();
   }
 
   void getCartData() async {
     try {
     var data = await Helper.getCartData();
+    var cartItem = await Helper.getCartItem();
     productController.cartProducts.value = data;
-    print(productController.cartProducts);
+    productController.itemCount.value = cartItem;
+
+    print(data);
+    print(cartItem);
       
     } catch (e) {
       print("error: ${e.toString()}"); 
@@ -61,12 +66,27 @@ class _CartPageState extends State<CartPage> {
                     })),
             Padding(
               padding: const EdgeInsets.only(top: 15.0, left: 20),
-              child: Text(
-                'Bag',
-                style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.red[600]),
+              child: Row(
+                children: [
+                  Text(
+                    'Bag',
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.red[600]),
+                  ),
+                  SizedBox(width: 6,),
+                  Obx(() => Align(
+alignment: Alignment.bottomCenter,
+                    child: Text(
+                                        '(${productController.cartProducts.length})',
+                                        style: const TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black),
+                                      ),
+                  )),
+                ],
               ),
             )
           ],
@@ -78,7 +98,7 @@ class _CartPageState extends State<CartPage> {
             Expanded(
               child: Obx(() => SizedBox(
                     child: productController.cartProducts.length <= 0
-                        ? const Center(child: Text('Empty cart'))
+                        ? const Center(child: Text('Your Bag is Empty',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),))
                         : ListView.builder(
                             shrinkWrap: true,
                             itemCount: productController.cartProducts.length > 0
@@ -206,14 +226,27 @@ class _CartPageState extends State<CartPage> {
                   )),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 10, left: 20),
-              child: Obx(() => Text(
-                    ' SubTotal : \$ ${productController.subTotal.value.toStringAsFixed(2)}',
-                    style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.red[600]),
-                  )),
+              padding: const EdgeInsets.only(top: 10, left: 20,right: 20),
+              child: Obx(() => Row(
+               mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                        ' SubTotal:',
+                        style: TextStyle(
+                            fontSize: Constant.width/20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black),
+                      ),
+                      SizedBox(width: Constant.width/30,),
+                  Text(
+                        ' \$ ${productController.subTotal.value.toStringAsFixed(2)}',
+                        style: TextStyle(
+                            fontSize: Constant.width/20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.red[600]),
+                      ),
+                ],
+              )),
             ),
             SizedBox(
               height: Constant.height / 35,
@@ -221,7 +254,7 @@ class _CartPageState extends State<CartPage> {
             Padding(
               padding: const EdgeInsets.only(bottom: 35.0),
               child: Obx(() => CustomButton(
-                    onTap: productController.subTotal.value <= 0.0
+                    onTap: productController.subTotal.value <= 0.0 ||productController.cartProducts.length>5
                         ? null
                         : () {
                             Navigator.push(
@@ -232,7 +265,7 @@ class _CartPageState extends State<CartPage> {
                                             .subTotal.value
                                             .toStringAsFixed(2))));
                           },
-                    buttonText: 'Checkout',
+                    buttonText: 'Procceed to Checkout',
                   )),
             ),
             // Container(child: Text(widget.bookDetails.toString())),

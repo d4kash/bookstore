@@ -128,9 +128,9 @@ class _BookDetailsState extends State<BookDetails> {
                 alignment: Alignment.centerLeft,
                 child: SizedBox(
                   height: Constant.height / 20,
-                  child: Text('Price \$ ${widget.bookDetails.priceInDollar}',
-                      style: GoogleFonts.roboto(
-                          fontSize: 30, fontWeight: FontWeight.bold)),
+                  child: Text('Price: \$ ${widget.bookDetails.priceInDollar}',
+                      style: TextStyle(
+                          fontSize: 30,color: Colors.red[600], fontWeight: FontWeight.bold)),
                 ),
               ),
             ),

@@ -9,7 +9,7 @@ class CustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: Constant.height/10,
-      width:Constant.width/1.5,
+      width:Constant.width/1.3,
       child: ElevatedButton(
       
         style: ButtonStyle(
@@ -22,10 +22,10 @@ class CustomButton extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Text(buttonText,style:TextStyle(fontSize: Constant.height/30)),
+            Text(buttonText,style:TextStyle(fontSize: Constant.height/40)),
            const  Icon(
                   Icons.shopping_bag_outlined,
-                  size: 45,
+                  size: 30,
                   color: Colors.white,
                 ),
           ],

@@ -36,7 +36,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
             Padding(
               padding: const EdgeInsets.only(top: 15.0, left: 20),
               child: Text(
-                'checkout',
+                'Checkout',
                 style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,

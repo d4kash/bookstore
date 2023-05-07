@@ -21,7 +21,7 @@ class ProductController extends GetxController {
   var cartProducts = [].obs;
 
   var itemCount = [].obs;
-  var subTotal = 0.0.obs;
+  RxDouble subTotal = 0.0.obs;
 
   addRemoveToFavorite() async {
     if (favList.contains(selectedProduct['id'])) {
@@ -46,8 +46,13 @@ class ProductController extends GetxController {
       cartProducts.add(selectedProduct);
       isAddedToCart.value = true;
       await Helper.addCartData(cartProducts.value);
-      var data = await Helper.getCartData();
-      print(data.toString());
+      await Helper.addCartItem(itemCount.value);
+      if (cartProducts.length > 5) {
+        showSnackBar(
+            title: 'Opps', message: 'Maximum 5 Products checkout at a time');
+      }
+      // var data = await Helper.getCartData();
+      // print(data.toString());
       // cartSubTotal();
     } else {
       showSnackBar(title: 'Opps', message: 'Product Already In Cart');
@@ -57,16 +62,17 @@ class ProductController extends GetxController {
   removeFromCart(product, index) async {
     if (cartProducts.contains(product)) {
       try {
-           cartProducts.remove(product);
-      print(cartProducts);
-      await Helper.addCartData(cartProducts.value);
-      var data = await Helper.getCartData();
-      print(data.toString());
-      updateCartSubTotal(product, index);
+        cartProducts.remove(product);
+        // print(cartProducts);
+        await Helper.addCartData(cartProducts.value);
+        await Helper.addCartItem(itemCount.value);
+        // var data = await Helper.getCartData();
+        // print(data.toString());
+        updateCartSubTotal(product, index);
+        itemCount.remove(itemCount[index]);
       } catch (e) {
-        print("error in removeCart : ${e.toString()}"); 
+        print("error in removeCart : ${e.toString()}");
       }
-   
     }
   }
 
@@ -80,18 +86,8 @@ class ProductController extends GetxController {
 
   cartSubTotal(productPrice) async {
     if (cartProducts.isNotEmpty) {
-      // var data = json.encode(cartProducts.value);
-      // final cartPriceModel = cartPriceModelFromJson(data);
-      // print(cartPriceModel);
-      // cartPriceModel.forEach((element) {
       subTotal + double.parse(productPrice);
-      // subTotal + element.price;
-      // });
-      // if (cartProducts.isEmpty) {
-      //   subTotal.value = 0.0;
-      // }
-
-      // print(subTotal.value.toString());
+      await Helper.itemSubTotal(subTotal.value);
     }
   }
 
@@ -99,7 +95,8 @@ class ProductController extends GetxController {
     if (cartProducts.isNotEmpty) {
       // print(product);
       subTotal - double.parse(product);
-      subTotal - (double.parse(product) * (itemCount[index] - 1));
+      // subTotal - (double.parse(product) * (itemCount[index] - 1));
+       await Helper.itemSubTotal(subTotal.value);
     }
   }
 }

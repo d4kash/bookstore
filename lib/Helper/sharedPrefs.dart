@@ -9,22 +9,36 @@ class Helper {
     prefs.setString('cartData', encodedData);
   }
 
-  static  getCartData() async {
+  static getCartData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var data = prefs.getString('cartData');
     var decodedData = json.decode(data!);
-    return decodedData==null?[]:decodedData;
+    return decodedData ?? [];
   }
+
   static addCartItem(List data) async {
     var encodedData = json.encode(data);
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('cartItem', encodedData);
   }
 
-  static  getCartItem() async {
+  static getCartItem() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var data = prefs.getString('cartItem');
-    var decodedData = json.encode(data);
-    return decodedData;
+    var decodedData = json.decode(data!);
+    return decodedData ?? [];
+  }
+
+  static itemSubTotal(double data) async {
+    // var encodedData = json.encode(data);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setDouble('itemSubTotal', data);
+  }
+
+  static getItemSubTotal() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var data = prefs.getDouble('itemSubTotal');
+    // var decodedData = json.decode(data!);
+    return data ?? 0.0;
   }
 }
