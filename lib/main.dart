@@ -1,4 +1,5 @@
 import 'package:bookstore/Controller/controller_binding.dart';
+import 'package:bookstore/Screens/Cart/CartPage.dart';
 import 'package:bookstore/Screens/HomePage.dart';
 import 'package:bookstore/models/bookModel.dart';
 import 'package:bookstore/routes/AppPage.dart';

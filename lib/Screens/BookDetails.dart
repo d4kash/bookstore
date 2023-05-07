@@ -140,8 +140,15 @@ class _BookDetailsState extends State<BookDetails> {
             CustomButton(
               onTap: () {
                 // print("tapped");
+                productController.selectedProduct = {
+                  "image": widget.bookDetails.coverImageUrl,
+                  "title": widget.bookDetails.title,
+                  "price": widget.bookDetails.priceInDollar,
+                };
+                productController.addToCart();
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => const CartPage()));
+                print(productController.cartProducts);
               },
               buttonText: 'Add to bag',
             ),
