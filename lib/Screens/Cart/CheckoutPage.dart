@@ -1,5 +1,8 @@
+import 'package:bookstore/Components/CustomButton.dart';
+import 'package:bookstore/GlobalVariables/constant_page.dart';
 import 'package:bookstore/Screens/HomePage.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../Components/scaffold_page.dart';
 
@@ -49,7 +52,44 @@ class _CheckoutPageState extends State<CheckoutPage> {
       body: Expanded(
         child: Column(
           children: [
-            Container(child: Text(widget.subtotal),)
+            SizedBox(
+              height: Constant.height/3,
+              child: Text('Total Payable Amount is', style: TextStyle(
+                              fontSize: Constant.width/15,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black),),
+            ),
+
+            SizedBox(
+               height: Constant.height/3,
+              child: Row(
+                 mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                          ' SubTotal:',
+                          style: TextStyle(
+                              fontSize: Constant.width/18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black),
+                        ),
+                        SizedBox(width: Constant.width/30,),
+                    Text(
+                          ' \$ ${widget.subtotal}',
+                          style: TextStyle(
+                              fontSize: Constant.width/14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.red[600]),
+                        ),
+                  ],
+                ),
+            ),Padding(
+              padding: const EdgeInsets.only(bottom: 35.0),
+              child: CustomButton(
+                    onTap: (){},
+                       
+                    buttonText: 'Make Payment',
+                  ),
+            ),
             // Container(child: Text(widget.bookDetails.toString())),
           ],
         ),
