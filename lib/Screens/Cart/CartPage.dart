@@ -4,6 +4,7 @@ import 'package:bookstore/Components/CustomButton.dart';
 import 'package:bookstore/Components/scaffold_page.dart';
 import 'package:bookstore/Controller/product_controller.dart';
 import 'package:bookstore/GlobalVariables/constant_page.dart';
+import 'package:bookstore/Helper/sharedPrefs.dart';
 import 'package:bookstore/Screens/Cart/CheckoutPage.dart';
 import 'package:bookstore/Screens/HomePage.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +23,19 @@ class _CartPageState extends State<CartPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    getCartData();
     // productController.cartSubTotal();
+  }
+
+  void getCartData() async {
+    try {
+    var data = await Helper.getCartData();
+    productController.cartProducts.value = data;
+    print(productController.cartProducts);
+      
+    } catch (e) {
+      print("error: ${e.toString()}"); 
+    }
   }
 
   @override
@@ -236,12 +249,12 @@ class _CartPageState extends State<CartPage> {
       heroTag: tag,
       child: const Icon(Icons.add, color: Colors.black87),
       backgroundColor: Colors.white,
-      onPressed: () {
+      onPressed: () async {
         productController.itemCount[tag]++;
+        await Helper.addCartItem(productController.itemCount);
         // print(productController.itemCount[tag]);
         productController.subTotal +
-            (double.parse(productController.cartProducts[tag]['price'])
-                );
+            (double.parse(productController.cartProducts[tag]['price']));
         // print(productController.subTotal);
         // setState(() {
         //   numberOfItems[index]++;
@@ -254,9 +267,10 @@ class _CartPageState extends State<CartPage> {
     // Random random = Random();
     return FloatingActionButton(
         heroTag: tag + 1,
-        onPressed: () {
+        onPressed: () async {
           if (productController.itemCount[tag] > 0) {
             productController.itemCount[tag]--;
+            await Helper.addCartItem(productController.itemCount);
             productController.subTotal -
                 (double.parse(productController.cartProducts[tag]['price']));
           }

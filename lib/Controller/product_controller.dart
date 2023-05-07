@@ -45,7 +45,7 @@ class ProductController extends GetxController {
     if (!cartProducts.contains(selectedProduct)) {
       cartProducts.add(selectedProduct);
       isAddedToCart.value = true;
-      await Helper.addCartData(cartProducts);
+      await Helper.addCartData(cartProducts.value);
       var data = await Helper.getCartData();
       print(data.toString());
       // cartSubTotal();
@@ -56,12 +56,17 @@ class ProductController extends GetxController {
 
   removeFromCart(product, index) async {
     if (cartProducts.contains(product)) {
-      cartProducts.remove(product);
+      try {
+           cartProducts.remove(product);
       print(cartProducts);
-      await Helper.addCartData(cartProducts);
+      await Helper.addCartData(cartProducts.value);
       var data = await Helper.getCartData();
       print(data.toString());
       updateCartSubTotal(product, index);
+      } catch (e) {
+        print("error in removeCart : ${e.toString()}"); 
+      }
+   
     }
   }
 
