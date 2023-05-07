@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:bookstore/Widgets/Custom_widget.dart';
 import 'package:bookstore/models/CartPriceModel.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
 
 // import '../custom_widgets.dart';
 
@@ -19,10 +18,10 @@ class ProductController extends GetxController {
   var isAddedToCart = false.obs;
   var selectedProduct = {};
   var cartProducts = [].obs;
-  var removedCartProducts = [].obs;
+
   var itemCount = 1.obs;
   var subTotal = 0.0.obs;
-  var priceAfterRemoval = 0.0.obs;
+
   addRemoveToFavorite() async {
     if (favList.contains(selectedProduct['id'])) {
       favList.remove(selectedProduct['id']);
@@ -45,7 +44,7 @@ class ProductController extends GetxController {
     if (!cartProducts.contains(selectedProduct)) {
       cartProducts.add(selectedProduct);
       isAddedToCart.value = true;
-      cartSubTotal();
+      // cartSubTotal();
     } else {
       showSnackBar(title: 'Opps', message: 'Product Already In Cart');
     }
@@ -53,7 +52,6 @@ class ProductController extends GetxController {
 
   removeFromCart(product) async {
     if (cartProducts.contains(product)) {
-   
       cartProducts.remove(product);
       updateCartSubTotal(product);
     }
@@ -67,29 +65,27 @@ class ProductController extends GetxController {
     }
   }
 
-  cartSubTotal() async {
+  cartSubTotal(productPrice) async {
     if (cartProducts.isNotEmpty) {
       var data = json.encode(cartProducts.value);
       final cartPriceModel = cartPriceModelFromJson(data);
-      // cartProducts.forEach((element) {
-      cartPriceModel.forEach((element) {
-        // print(element.price);
-        // var totalPrice =
-        subTotal + element.price;
-      });
+      // print(cartPriceModel);
+      // cartPriceModel.forEach((element) {
+        subTotal + double.parse(productPrice);
+        // subTotal + element.price;
+      // });
+      // if (cartProducts.isEmpty) {
+      //   subTotal.value = 0.0;
+      // }
 
-   
       // print(subTotal.value.toString());
     }
   }
 
   updateCartSubTotal(product) async {
     if (cartProducts.isNotEmpty) {
-      print(product);
+      // print(product);
       subTotal - double.parse(product);
-   
-      
-      print(subTotal.value.toString());
     }
   }
 }

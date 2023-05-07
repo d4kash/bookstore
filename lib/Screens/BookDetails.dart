@@ -146,6 +146,7 @@ class _BookDetailsState extends State<BookDetails> {
                   "price": widget.bookDetails.priceInDollar,
                 };
                 productController.addToCart();
+                productController.cartSubTotal(widget.bookDetails.priceInDollar);
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => const CartPage()));
                 // print(productController.cartProducts);
