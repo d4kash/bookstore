@@ -71,6 +71,7 @@ class ProductController extends GetxController {
       // cartProducts.forEach((element) {
       cartPriceModel.forEach((element) {
           // print(element.price);
+          // var totalPrice = 
           subTotal + element.price;
       });
     

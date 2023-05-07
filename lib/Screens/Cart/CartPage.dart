@@ -85,7 +85,7 @@ class _CartPageState extends State<CartPage> {
                                             .cartProducts[index]['image'])),
                                   ),
                                   SizedBox(
-                                    width: Constant.width / 2,
+                                    width: Constant.width /1.70,
                                     child: Padding(
                                       padding: const EdgeInsets.only(
                                           top: 8.0, left: 12),
@@ -118,7 +118,7 @@ class _CartPageState extends State<CartPage> {
                                             alignment: Alignment.centerLeft,
                                             child: SizedBox(
                                               height: Constant.height / 12,
-                                              width: Constant.width / 2,
+                                              width: Constant.width ,
                                               child: Obx(
                                                 () => Row(
                                                   mainAxisAlignment:
@@ -172,9 +172,9 @@ class _CartPageState extends State<CartPage> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 20),
+              padding: const EdgeInsets.only(top:10,left: 20),
               child: Obx(() => Text(
-                    'SubTotal ${productController.subTotal.value.toString()}',
+                    ' SubTotal : \$ ${productController.subTotal.value.toStringAsFixed(2)}',
                     style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -184,12 +184,15 @@ class _CartPageState extends State<CartPage> {
             SizedBox(
               height: Constant.height / 35,
             ),
-            CustomButton(
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const HomePage()));
-              },
-              buttonText: 'Checkout',
+            Padding(
+              padding: const EdgeInsets.only(bottom:35.0),
+              child: CustomButton(
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => const HomePage()));
+                },
+                buttonText: 'Checkout',
+              ),
             ),
             // Container(child: Text(widget.bookDetails.toString())),
           ],

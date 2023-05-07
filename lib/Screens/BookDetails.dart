@@ -148,7 +148,7 @@ class _BookDetailsState extends State<BookDetails> {
                 productController.addToCart();
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => const CartPage()));
-                print(productController.cartProducts);
+                // print(productController.cartProducts);
               },
               buttonText: 'Add to bag',
             ),
