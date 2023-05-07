@@ -19,9 +19,10 @@ class ProductController extends GetxController {
   var isAddedToCart = false.obs;
   var selectedProduct = {};
   var cartProducts = [].obs;
+  var removedCartProducts = [].obs;
   var itemCount = 1.obs;
   var subTotal = 0.0.obs;
-
+  var priceAfterRemoval = 0.0.obs;
   addRemoveToFavorite() async {
     if (favList.contains(selectedProduct['id'])) {
       favList.remove(selectedProduct['id']);
@@ -52,7 +53,9 @@ class ProductController extends GetxController {
 
   removeFromCart(product) async {
     if (cartProducts.contains(product)) {
+   
       cartProducts.remove(product);
+      updateCartSubTotal(product);
     }
   }
 
@@ -70,13 +73,22 @@ class ProductController extends GetxController {
       final cartPriceModel = cartPriceModelFromJson(data);
       // cartProducts.forEach((element) {
       cartPriceModel.forEach((element) {
-          // print(element.price);
-          // var totalPrice = 
-          subTotal + element.price;
+        // print(element.price);
+        // var totalPrice =
+        subTotal + element.price;
       });
-    
-      //   // subTotal.value + element.price;
-      // });
+
+   
+      // print(subTotal.value.toString());
+    }
+  }
+
+  updateCartSubTotal(product) async {
+    if (cartProducts.isNotEmpty) {
+      print(product);
+      subTotal - double.parse(product);
+   
+      
       print(subTotal.value.toString());
     }
   }

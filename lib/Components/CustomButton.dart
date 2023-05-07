@@ -11,6 +11,7 @@ class CustomButton extends StatelessWidget {
       height: Constant.height/10,
       width:Constant.width/1.5,
       child: ElevatedButton(
+      
         style: ButtonStyle(
          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
