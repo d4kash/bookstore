@@ -40,23 +40,7 @@ class MyApp extends StatelessWidget {
       900: Colors.red.withOpacity(1),
     },
   ); 
-  final bookModelNew = BookModelNew(
-        title: "Wuthering Heights (Collins Classics)",
-        coverImageUrl: "https://images-na.ssl-images-amazon.com/images/I/41k1JwQ6zVL._SY291_BO1,204,203,200_QL40_FMwebp_.jpg",
-        priceInDollar: 3.99.toString(),
-        categories: [
-            "Books",
-            "Literature & Fiction",
-            "Genre Fiction"
-        ],
-        availableFormat: [
-            "Kindle",
-            "Audiobook",
-            "Hardcover",
-            "Mass Market Paperback",
-            "MP3 CD",
-            "Flexibound"
-        ]);
+ 
     return GetMaterialApp(
       initialBinding: ControllerBinding(),
       debugShowCheckedModeBanner: false,

@@ -19,7 +19,7 @@ class ProductController extends GetxController {
   var selectedProduct = {};
   var cartProducts = [].obs;
 
-  var itemCount = 1.obs;
+  var itemCount = [].obs;
   var subTotal = 0.0.obs;
 
   addRemoveToFavorite() async {
@@ -50,10 +50,10 @@ class ProductController extends GetxController {
     }
   }
 
-  removeFromCart(product) async {
+  removeFromCart(product,index) async {
     if (cartProducts.contains(product)) {
       cartProducts.remove(product);
-      updateCartSubTotal(product);
+      updateCartSubTotal(product,index);
     }
   }
 
@@ -67,8 +67,8 @@ class ProductController extends GetxController {
 
   cartSubTotal(productPrice) async {
     if (cartProducts.isNotEmpty) {
-      var data = json.encode(cartProducts.value);
-      final cartPriceModel = cartPriceModelFromJson(data);
+      // var data = json.encode(cartProducts.value);
+      // final cartPriceModel = cartPriceModelFromJson(data);
       // print(cartPriceModel);
       // cartPriceModel.forEach((element) {
         subTotal + double.parse(productPrice);
@@ -82,10 +82,13 @@ class ProductController extends GetxController {
     }
   }
 
-  updateCartSubTotal(product) async {
+  updateCartSubTotal(product,index) async {
     if (cartProducts.isNotEmpty) {
       // print(product);
       subTotal - double.parse(product);
+       subTotal -
+            (double.parse(product) *
+                (itemCount[index]-1));
     }
   }
 }

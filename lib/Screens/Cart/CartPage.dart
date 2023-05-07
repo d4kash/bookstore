@@ -128,19 +128,28 @@ class _CartPageState extends State<CartPage> {
                                                           MainAxisAlignment
                                                               .spaceAround,
                                                       children: <Widget>[
-                                                        productController.itemCount.value<2?Container():_decrementButton(
-                                                            productController
-                                                                .itemCount
-                                                                .value,index),
+                                                        productController
+                                                                        .itemCount[
+                                                                    index] <
+                                                                2
+                                                            ? Container()
+                                                            : _decrementButton(
+                                                                productController
+                                                                        .itemCount[
+                                                                    index],
+                                                                index),
                                                         Text(
-                                                          '${productController.itemCount}',
-                                                          style: const TextStyle(
-                                                              fontSize: 18.0),
+                                                          '${productController.itemCount[index]}',
+                                                          style:
+                                                              const TextStyle(
+                                                                  fontSize:
+                                                                      18.0),
                                                         ),
                                                         _incrementButton(
                                                             productController
-                                                                .itemCount
-                                                                .value,index),
+                                                                    .itemCount[
+                                                                index],
+                                                            index),
                                                         Padding(
                                                           padding:
                                                               const EdgeInsets
@@ -158,11 +167,13 @@ class _CartPageState extends State<CartPage> {
                                                                     productController
                                                                             .cartProducts[index]
                                                                         [
-                                                                        'price']);
+                                                                        'price'],
+                                                                    index);
                                                                 productController
                                                                     .removeFromCart(
                                                                         productController
-                                                                            .cartProducts[index]);
+                                                                            .cartProducts[index],
+                                                                        index);
                                                                 debugPrint(
                                                                     "deleted");
                                                               }),
@@ -197,16 +208,19 @@ class _CartPageState extends State<CartPage> {
             Padding(
               padding: const EdgeInsets.only(bottom: 35.0),
               child: Obx(() => CustomButton(
-                              onTap:productController.subTotal.value<=0.0?null: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => CheckoutPage(
-                                            subtotal: productController.subTotal.value
-                                                .toStringAsFixed(2))));
-                              },
-                              buttonText: 'Checkout',
-                            )),
+                    onTap: productController.subTotal.value <= 0.0
+                        ? null
+                        : () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => CheckoutPage(
+                                        subtotal: productController
+                                            .subTotal.value
+                                            .toStringAsFixed(2))));
+                          },
+                    buttonText: 'Checkout',
+                  )),
             ),
             // Container(child: Text(widget.bookDetails.toString())),
           ],
@@ -215,15 +229,20 @@ class _CartPageState extends State<CartPage> {
     );
   }
 
-  Widget _incrementButton(int index,tag) {
-    Random random = Random();
+  Widget _incrementButton(int index, tag) {
+    // Random random = Random();
 
     return FloatingActionButton(
       heroTag: tag,
       child: const Icon(Icons.add, color: Colors.black87),
       backgroundColor: Colors.white,
       onPressed: () {
-        productController.itemCount.value++;
+        productController.itemCount[tag]++;
+        // print(productController.itemCount[tag]);
+        productController.subTotal +
+            (double.parse(productController.cartProducts[tag]['price'])
+                );
+        // print(productController.subTotal);
         // setState(() {
         //   numberOfItems[index]++;
         // });
@@ -231,13 +250,15 @@ class _CartPageState extends State<CartPage> {
     );
   }
 
-  Widget _decrementButton(int index,tag) {
-    Random random = Random();
+  Widget _decrementButton(int index, tag) {
+    // Random random = Random();
     return FloatingActionButton(
-        heroTag: tag+1,
+        heroTag: tag + 1,
         onPressed: () {
-          if (productController.itemCount.value > 0) {
-            productController.itemCount.value--;
+          if (productController.itemCount[tag] > 0) {
+            productController.itemCount[tag]--;
+            productController.subTotal -
+                (double.parse(productController.cartProducts[tag]['price']));
           }
           // setState(() {
           //   numberOfItems[index]--;
