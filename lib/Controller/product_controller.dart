@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:bookstore/Helper/sharedPrefs.dart';
 import 'package:bookstore/Widgets/Custom_widget.dart';
 import 'package:bookstore/models/CartPriceModel.dart';
 import 'package:get/get.dart';
@@ -44,16 +45,23 @@ class ProductController extends GetxController {
     if (!cartProducts.contains(selectedProduct)) {
       cartProducts.add(selectedProduct);
       isAddedToCart.value = true;
+      await Helper.addCartData(cartProducts);
+      var data = await Helper.getCartData();
+      print(data.toString());
       // cartSubTotal();
     } else {
       showSnackBar(title: 'Opps', message: 'Product Already In Cart');
     }
   }
 
-  removeFromCart(product,index) async {
+  removeFromCart(product, index) async {
     if (cartProducts.contains(product)) {
       cartProducts.remove(product);
-      updateCartSubTotal(product,index);
+      print(cartProducts);
+      await Helper.addCartData(cartProducts);
+      var data = await Helper.getCartData();
+      print(data.toString());
+      updateCartSubTotal(product, index);
     }
   }
 
@@ -71,8 +79,8 @@ class ProductController extends GetxController {
       // final cartPriceModel = cartPriceModelFromJson(data);
       // print(cartPriceModel);
       // cartPriceModel.forEach((element) {
-        subTotal + double.parse(productPrice);
-        // subTotal + element.price;
+      subTotal + double.parse(productPrice);
+      // subTotal + element.price;
       // });
       // if (cartProducts.isEmpty) {
       //   subTotal.value = 0.0;
@@ -82,13 +90,11 @@ class ProductController extends GetxController {
     }
   }
 
-  updateCartSubTotal(product,index) async {
+  updateCartSubTotal(product, index) async {
     if (cartProducts.isNotEmpty) {
       // print(product);
       subTotal - double.parse(product);
-       subTotal -
-            (double.parse(product) *
-                (itemCount[index]-1));
+      subTotal - (double.parse(product) * (itemCount[index] - 1));
     }
   }
 }
