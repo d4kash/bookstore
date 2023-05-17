@@ -11,8 +11,7 @@ import 'package:bookstore/models/bookModel.dart';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' as rootBundle;
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 import 'package:get/get.dart';
 
 // import 'package:searchfield/searchfield.dart';
@@ -48,30 +47,22 @@ class _HomePageState extends State<HomePage> {
   }
 
   List<Map<String, dynamic>> foundBooks = [];
-  List<Map<String, dynamic>> bookCollection = [
-    {
-      "title": "The Giving Tree",
-      "image":
-          "https://images-na.ssl-images-amazon.com/images/I/41m-Tm2wAqL._SY291_BO1,204,203,200_QL40_FMwebp_.jpg",
-      "price": 9.09
-    },
-  ];
-  void _runFilter(String enteredKeyword) {
+  List<Map<String, dynamic>> bookCollection = [];
+  void _runFilter(String query) {
     List<Map<String, dynamic>> results = [];
-    if (enteredKeyword.isEmpty) {
-      results = bookCollection;
+    if (query.isEmpty) {
+      foundBooks = bookCollection;
     } else {
-      results = bookCollection
-          .where((book) => book['title']
-              .toLowerCase()
-              .contains(enteredKeyword.toLowerCase()))
+      foundBooks = bookCollection
+          .where((book) =>
+              book['title'].toLowerCase().contains(query.toLowerCase()))
           .toList();
     }
     setState(() {
-      foundBooks = results;
+      // foundBooks = results;
     });
 
-    // print("foundBook : $foundBooks");
+    print("foundBook : $foundBooks");
   }
 
   @override
@@ -116,49 +107,24 @@ class _HomePageState extends State<HomePage> {
                 // var responseList = jsonDecode(snapshot.data.toString());
 
                 final bookModelNew = bookModelNewFromJson(snapshot.data);
-                for (int index = 0; index < bookModelNew.length;index++){
-bookCollection.add({
-                            "title": bookModelNew[index].title,
-                            "image": bookModelNew[index].coverImageUrl,
-                            "price": bookModelNew[index].priceInDollar,
-                          });
+                for (int index = 0; index < bookModelNew.length; index++) {
+                  bookCollection.add({
+                    ...{
+                      "title": bookModelNew[index].title,
+                      "coverImageUrl": bookModelNew[index].coverImageUrl,
+                      "priceInDollar": bookModelNew[index].priceInDollar,
+                    }
+                  });
                 }
+                // print(bookCollection);
 
-                  // print(bookModelNew);
+                // print(bookModelNew);
 
-                  // print(bookModelNew[0].title);
-                  return SingleChildScrollView(
-                    physics: const ClampingScrollPhysics(
-                        parent: AlwaysScrollableScrollPhysics()),
-                    child: SizedBox(
-                      height: Constant.height,
-                      child: GridView.builder(
-                        shrinkWrap: true,
-                        itemCount: bookModelNew.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          
-                          return InkWell(
-                            onTap: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => BookDetails(
-                                          bookDetails: bookModelNew[index],
-                                        ))),
-                            child: BookCard(
-                              image: bookModelNew[index].coverImageUrl,
-                              bookName: bookModelNew[index].title,
-                              price: bookModelNew[index].priceInDollar,
-                            ),
-                          );
-                        },
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 3,
-                        ),
-                      ),
-                    ),
-                  );
+                // print(bookModelNew[0].title);
+                return CustomGridView(
+                  foundBooks: foundBooks,
+                  bookModelNew: bookModelNew,
+                );
               } else {
                 return const Text('Empty data');
               }
@@ -169,6 +135,54 @@ bookCollection.add({
                   child: const Text("else"));
             }
           },
+        ),
+      ),
+    );
+  }
+}
+
+class CustomGridView extends StatelessWidget {
+  final foundBooks;
+  final bookModelNew;
+  const CustomGridView(
+      {super.key, required this.foundBooks, required this.bookModelNew});
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      physics:
+          const ClampingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+      child: SizedBox(
+        height: Constant.height,
+        child: GridView.builder(
+          shrinkWrap: true,
+          itemCount:
+              foundBooks.isEmpty ? bookModelNew.length : foundBooks.length,
+          itemBuilder: (BuildContext context, int index) {
+            return InkWell(
+              onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => BookDetails(
+                            bookDetails: bookModelNew[index],
+                          ))),
+              child: BookCard(
+                image: foundBooks.isEmpty
+                    ? bookModelNew[index].coverImageUrl
+                    : foundBooks[index]['coverImageUrl'],
+                bookName: foundBooks.isEmpty
+                    ? bookModelNew[index].title
+                    : foundBooks[index]['title'],
+                price: foundBooks.isEmpty
+                    ? bookModelNew[index].priceInDollar
+                    : foundBooks[index]['priceInDollar'],
+              ),
+            );
+          },
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 3,
+          ),
         ),
       ),
     );

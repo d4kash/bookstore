@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-
-
 showSnackBar(
     {required title,
     required message,
@@ -36,6 +34,7 @@ Widget textView(String text,
     bool needUnderLine = false,
     needFancyFont = false}) {
   return Align(
+    alignment: alignment,
     child: Text(
       text,
       style: needFancyFont
@@ -68,7 +67,6 @@ Widget textView(String text,
       textAlign: textAlign,
       textDirection: textDirection,
     ),
-    alignment: alignment,
   );
 }
 
@@ -89,14 +87,15 @@ Widget cartIcon(ProductController productController) {
     () => Stack(
       children: [
         IconButton(
-            onPressed: () {
-              Get.to(() => const CartPage());
-            },
-            icon:  Icon(
-                  Icons.shopping_bag_outlined,
-                  size: 50,
-                  color: Colors.red[600],
-                ),),
+          onPressed: () {
+            Get.to(() => const CartPage());
+          },
+          icon: Icon(
+            Icons.shopping_bag_outlined,
+            size: 50,
+            color: Colors.red[600],
+          ),
+        ),
         if (productController.cartProducts.isNotEmpty)
           Positioned(
             top: 5,
