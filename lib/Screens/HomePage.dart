@@ -49,20 +49,32 @@ class _HomePageState extends State<HomePage> {
   List<Map<String, dynamic>> foundBooks = [];
   List<Map<String, dynamic>> bookCollection = [];
   void _runFilter(String query) {
-    List<Map<String, dynamic>> results = [];
     if (query.isEmpty) {
-      foundBooks = bookCollection;
+      foundBooks = bookCollection
+        ..sort((a, b) {
+          return a['title']
+              .toString()
+              .toLowerCase()
+              .compareTo(b['title'].toString().toLowerCase());
+          //  return a.value['name'].toString().toLowerCase().compareTo(b.value['name'].toString().toLowerCase());
+        });
     } else {
       foundBooks = bookCollection
           .where((book) =>
-              book['title'].toLowerCase().contains(query.toLowerCase()))
+              book['title'].toLowerCase().contains(query.toLowerCase()) ||
+              book['priceInDollar']
+                  .toString()
+                  .toLowerCase()
+                  .contains(query.toLowerCase()))
           .toList();
+      // print(foundBooks);
+      setState(() {});
     }
-    setState(() {
-      // foundBooks = results;
-    });
+    // setState(() {
 
-    print("foundBook : $foundBooks");
+    // });
+
+    // print("foundBook : $foundBooks");
   }
 
   @override
@@ -85,7 +97,7 @@ class _HomePageState extends State<HomePage> {
                       errorBorder: OutlineInputBorder(),
                       border: OutlineInputBorder(),
                       labelText: 'Search',
-                      hintText: 'Search \'Books\'',
+                      hintText: 'Search \'Books\' or \'Price\'',
                     ),
                   )),
             ),
@@ -121,10 +133,12 @@ class _HomePageState extends State<HomePage> {
                 // print(bookModelNew);
 
                 // print(bookModelNew[0].title);
+                print(foundBooks);
                 return CustomGridView(
                   foundBooks: foundBooks,
                   bookModelNew: bookModelNew,
                 );
+                // :const Center(child: Text('No Book Found'),);
               } else {
                 return const Text('Empty data');
               }
