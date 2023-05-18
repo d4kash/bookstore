@@ -1,5 +1,6 @@
 import 'package:bookstore/Controller/product_controller.dart';
 import 'package:bookstore/Screens/Cart/CartPage.dart';
+import 'package:bookstore/routes/AppPage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -88,7 +89,7 @@ Widget cartIcon(ProductController productController) {
       children: [
         IconButton(
           onPressed: () {
-            Get.to(() => const CartPage());
+            Get.toNamed(AppPage.getCartRoute());
           },
           icon: Icon(
             Icons.shopping_bag_outlined,

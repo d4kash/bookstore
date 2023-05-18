@@ -8,6 +8,7 @@ import 'package:bookstore/Screens/Cart/CartPage.dart';
 
 import 'package:bookstore/Screens/HomePage.dart';
 import 'package:bookstore/Widgets/Custom_widget.dart';
+import 'package:bookstore/routes/AppPage.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -42,10 +43,7 @@ class _BookDetailsState extends State<BookDetails> {
                       color: Colors.red[600],
                     ),
                     onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const HomePage()));
+                      Navigator.pushNamed(context, AppPage.getHomeRoute());
                     })),
             Padding(
               padding: const EdgeInsets.only(right: 12.0),
@@ -130,7 +128,9 @@ class _BookDetailsState extends State<BookDetails> {
                   height: Constant.height / 20,
                   child: Text('Price: \$ ${widget.bookDetails.priceInDollar}',
                       style: TextStyle(
-                          fontSize: 30,color: Colors.red[600], fontWeight: FontWeight.bold)),
+                          fontSize: 30,
+                          color: Colors.red[600],
+                          fontWeight: FontWeight.bold)),
                 ),
               ),
             ),
@@ -147,9 +147,9 @@ class _BookDetailsState extends State<BookDetails> {
                 };
                 productController.addToCart();
                 productController.itemCount.add(1);
-                productController.cartSubTotal(widget.bookDetails.priceInDollar);
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const CartPage()));
+                productController
+                    .cartSubTotal(widget.bookDetails.priceInDollar);
+                Navigator.pushNamed(context, AppPage.getCartRoute());
                 // print(productController.cartProducts);
               },
               buttonText: 'Add to bag',

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../Components/scaffold_page.dart';
+import '../../routes/AppPage.dart';
 
 class CheckoutPage extends StatefulWidget {
   final String subtotal;
@@ -31,10 +32,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                       color: Colors.red[600],
                     ),
                     onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const HomePage()));
+                      Navigator.pushNamed(context, AppPage.getHomeRoute());
                     })),
             Padding(
               padding: const EdgeInsets.only(top: 15.0, left: 20),
@@ -53,42 +51,47 @@ class _CheckoutPageState extends State<CheckoutPage> {
         child: Column(
           children: [
             SizedBox(
-              height: Constant.height/3,
-              child: Text('Total Payable Amount is', style: TextStyle(
-                              fontSize: Constant.width/15,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black),),
+              height: Constant.height / 3,
+              child: Text(
+                'Total Payable Amount is',
+                style: TextStyle(
+                    fontSize: Constant.width / 15,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black),
+              ),
             ),
 
             SizedBox(
-               height: Constant.height/3,
+              height: Constant.height / 3,
               child: Row(
-                 mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                          ' SubTotal:',
-                          style: TextStyle(
-                              fontSize: Constant.width/18,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black),
-                        ),
-                        SizedBox(width: Constant.width/30,),
-                    Text(
-                          ' \$ ${widget.subtotal}',
-                          style: TextStyle(
-                              fontSize: Constant.width/14,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.red[600]),
-                        ),
-                  ],
-                ),
-            ),Padding(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    ' SubTotal:',
+                    style: TextStyle(
+                        fontSize: Constant.width / 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black),
+                  ),
+                  SizedBox(
+                    width: Constant.width / 30,
+                  ),
+                  Text(
+                    ' \$ ${widget.subtotal}',
+                    style: TextStyle(
+                        fontSize: Constant.width / 14,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.red[600]),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
               padding: const EdgeInsets.only(bottom: 35.0),
               child: CustomButton(
-                    onTap: (){},
-                       
-                    buttonText: 'Make Payment',
-                  ),
+                onTap: () {},
+                buttonText: 'Make Payment',
+              ),
             ),
             // Container(child: Text(widget.bookDetails.toString())),
           ],

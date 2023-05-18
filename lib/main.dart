@@ -45,11 +45,13 @@ class MyApp extends StatelessWidget {
       initialBinding: ControllerBinding(),
 
       debugShowCheckedModeBanner: false,
-      routes: AppPages.routes,
+      // onGenerateRoute: AppRoute.generateRoute,
+      getPages: AppPage.getPage,
+      // routes: AppPages.routes,
       title: 'BookStore',
       theme: ThemeData(
           primarySwatch: mycolor, textTheme: GoogleFonts.robotoTextTheme()),
-      home: const HomePage(),
+      initialRoute: AppPage.getHomeRoute(),
       // home:  BookDetails(bookDetails: bookModelNew,),
     );
   }

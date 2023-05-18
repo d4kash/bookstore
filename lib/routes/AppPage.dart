@@ -1,11 +1,16 @@
+import 'package:bookstore/Screens/Cart/CartPage.dart';
 import 'package:bookstore/Screens/HomePage.dart';
-import 'package:bookstore/main.dart';
-import 'package:bookstore/routes/AppRoute.dart';
-import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class AppPages {
-  static Map<String, Widget Function(BuildContext)> routes =
-      <String, WidgetBuilder>{
-    AppRoute.home: (BuildContext context) => const HomePage()
-  };
+class AppPage {
+  static String homePage = '/';
+  static String cartPage = '/cart';
+
+  static String getHomeRoute() => homePage;
+  static String getCartRoute() => cartPage;
+
+  static List<GetPage> getPage = [
+    GetPage(name: homePage, page: () => const HomePage()),
+    GetPage(name: cartPage, page: () => const CartPage())
+  ];
 }
